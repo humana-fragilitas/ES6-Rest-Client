@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ES6 Rest Client Test Suite</title>
+        <link rel="stylesheet" href="../node_modules/qunitjs/qunit/qunit.css" media="screen">
+        <script src="../node_modules/qunitjs/qunit/qunit.js"></script>
+        <script src="../node_modules/sinon/pkg/sinon.js"></script>
+        <script src="../node_modules/sinon-qunit/lib/sinon-qunit.js"></script>
+        <script src="../dist/client.umd.js"></script>
+        <script src="test.js"></script>
+        <style>
+        
+            #warning { display: none; }
+        
+        </style>
+    </head>
+    <body>
+        <div id="warning">
+            <h1>Can't proceed to test suite:</h1>
+            <h2>The browser in use does not support the following:</h2>
+            <ul>
+                <li id="proxy"><h3><a href="https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/Proxy#Browser_compatibility" title="reference @ MDN">Proxy</a></h3></li>
+                <li id="fetch-api"><h3><a href="https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch#Browser_compatibility" title="reference @ MDN">Fetch API</a></h3></li>
+                <li id="promise"><h3><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#Browser_compatibility" title="reference @ MDN">Promise</a></h3></li>
+            </ul>
+            <h3>Please, check the <a href="https://github.com/humana-fragilitas/es6-rest-client#required-es6-features" title="reference @ github.com/humana-fragilitas">required ES6 features</a>.</h3>
+        </div>
+        <div id="qunit"></div>
+        <script>
+            
+            'use strict';
+            
+            let hasProxySupport,
+                hasFetchAPISupport,
+                hasPromiseSupport,
+                hasErrors;
+                
+            hasProxySupport = (typeof Proxy === 'function');
+            hasFetchAPISupport = (typeof window.fetch === 'function');
+            hasPromiseSupport = (typeof Promise === 'function');
+            hasErrors = (!hasProxySupport || !hasFetchAPISupport || !hasPromiseSupport);
+            
+            if (hasErrors) {
+                
+                document.querySelector('html').className = 'error';
+                document.querySelector('#warning').style.display = 'block';
+                document.querySelector('#qunit').style.display = 'none';
+                document.querySelector('#proxy').style.display = (hasProxySupport) ? 'none' : 'block';
+                document.querySelector('#fetch-api').style.display = (hasFetchAPISupport) ? 'none' : 'block';
+                document.querySelector('#promise').style.display = (hasPromiseSupport) ? 'none' : 'block';
+            
+            }
+
+        </script>
+    </body>
+</html>

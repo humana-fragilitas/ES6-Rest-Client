@@ -1,0 +1,32 @@
+{
+    "name": "es6-rest-client",
+    "description": "ES6 JavaScript library aimed to ease communication with HTTP-based RESTful APIs.",
+    "main": "./dist/client.umd.js",
+    "moduleType": [
+        "amd",
+        "node",
+        "globals",
+        "es6"
+    ],
+    "keywords": [
+        "es6",
+        "javascript",
+        "proxy",
+        "semantic",
+        "rest",
+        "client"
+    ],
+    "authors": [
+        "Andrea Blasio <andrea@humanafragilitas.com>"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/humana-fragilitas/ES6-Rest-Client.git",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/humana-fragilitas/ES6-Rest-Client.git.git"
+    },
+    "ignore": [
+        ".gitignore",
+        "node_modules"
+    ]
+}
