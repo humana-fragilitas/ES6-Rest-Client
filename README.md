@@ -106,7 +106,7 @@ Documentation
 | *name* | *chainable* | *description* |
 | :--    | :--         | :--           |
 | `settings(obj?:Object):RestClient` | `yes` | Overrides client instance [default settings](#settings-object) with user defined values, persisting them across subsequent calls, unless explicitly either modified or reset. |
-| `params(obj?:Object):RestClient` | `yes` | Allows to pass an [initialization object](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch#Parameters) to the underlying GlobalFetch.fetch method call. |
+| `init(obj?:Object):RestClient` | `yes` | Allows to pass an [initialization object](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch#Parameters) to the underlying GlobalFetch.fetch method call. |
 | `reset(settings?:Boolean):RestClient` | `yes` | Restores client to its defaults, except for the settings; passing a truthy value as an argument also reestablishes the latter. |
 
 #### HTTP verbs ####

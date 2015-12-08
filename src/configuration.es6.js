@@ -195,14 +195,14 @@ export default class Configuration {
      * for the underlying call to the GlobalFetch.fetch method
      * (reference: ~/src/client.es6.js)
      *  
-     * @method config
+     * @method init
      * @param {Object} obj GlobalFetch.fetch initialization object
      *                     (reference: https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch#Parameters)
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
 
-    config(obj){
+    init(obj){
     
         fetchConfiguration = obj;
         

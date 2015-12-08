@@ -26,7 +26,7 @@ QUnit.module('ES6 Rest Client', (hooks) => {
             expect(3);
             
             strictEqual(restClient.settings(), restClient, 'settings() method returns the ES6 Rest Client Proxy object instance.');
-            strictEqual(restClient.config(), restClient, 'config() method returns the ES6 Rest Client Proxy object instance.');
+            strictEqual(restClient.init(), restClient, 'init() method returns the ES6 Rest Client Proxy object instance.');
             strictEqual(restClient.reset(), restClient, 'reset() method returns the ES6 Rest Client Proxy object instance.');
 
         });
@@ -72,12 +72,12 @@ QUnit.module('ES6 Rest Client', (hooks) => {
             assert.ok(window.fetch.calledWithExactly('http://www.humanafragilitas.com/routeFragment2/routeFragment3?x=1&y=8', { method: 'get' }), 'Configuration options set via settings() method should persist across subsequent queries unless explicitly reset.');
             
             restClient.reset(true);
-            restClient.config(testParams);
+            restClient.init(testParams);
             restClient.routeFragment1();            
-            assert.ok(window.fetch.calledWithExactly('/routeFragment1', testParams), 'The config() method should allow to pass an options object to the underlying GlobalFetch.Fetch method.');
+            assert.ok(window.fetch.calledWithExactly('/routeFragment1', testParams), 'The init() method should allow to pass an options object to the underlying GlobalFetch.Fetch method.');
             
             restClient.settings(testSettings);
-            restClient.config(testParams);
+            restClient.init(testParams);
             restClient.routeFragment1.routeFragment2.routeFragment3;
             restClient.reset();
             restClient();
@@ -86,7 +86,7 @@ QUnit.module('ES6 Rest Client', (hooks) => {
             
             restClient.reset(true);
             restClient.settings(testSettings);
-            restClient.config(testParams);
+            restClient.init(testParams);
             restClient.routeFragment1.routeFragment2.routeFragment3;
             restClient.reset(true);
             restClient();

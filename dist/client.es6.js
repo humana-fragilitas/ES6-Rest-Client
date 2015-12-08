@@ -1,6 +1,6 @@
 /**
- * es6-rest-client - v1.0.0 - Sun, 06 Dec 2015 21:11:58 GMT
- * https://github.com/humana-fragilitas/es6-rest-client
+ * es6-rest-client - v2.0.0 - Tue, 08 Dec 2015 13:03:38 GMT
+ * https://github.com/humana-fragilitas/ES6-Rest-Client.git
  * Copyright (c) 2015 Andrea Blasio (https://github.com/humana-fragilitas); Licensed MIT
  */
 /**
@@ -255,14 +255,14 @@ class Configuration {
      * for the underlying call to the GlobalFetch.fetch method
      * (reference: ~/src/client.es6.js)
      *  
-     * @method config
+     * @method init
      * @param {Object} obj GlobalFetch.fetch initialization object
      *                     (reference: https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch#Parameters)
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
 
-    config(obj){
+    init(obj){
     
         fetchConfiguration = obj;
         
