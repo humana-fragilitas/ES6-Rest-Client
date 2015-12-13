@@ -1,5 +1,5 @@
 /**
- * es6-rest-client - v2.0.0 - Tue, 08 Dec 2015 13:03:39 GMT
+ * es6-rest-client - v2.0.1 - Sun, 13 Dec 2015 17:57:17 GMT
  * https://github.com/humana-fragilitas/ES6-Rest-Client.git
  * Copyright (c) 2015 Andrea Blasio (https://github.com/humana-fragilitas); Licensed MIT
  */
