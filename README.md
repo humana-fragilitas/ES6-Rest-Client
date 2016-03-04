@@ -15,7 +15,7 @@ catalogue.products.books().then(function(stream){
 ```
 Required ES6 features
 -----
-**Note:** at time of writing, the only browser with full support for the library code is [Firefox (Developer Edition)](https://www.mozilla.org/en-US/firefox/developer/).
+~~**Note:** at time of writing, the only browser with full support for the library code is [Firefox (Developer Edition)](https://www.mozilla.org/en-US/firefox/developer/).~~Proxy is now supported in Chrome 49.
 
 *   **GlobalFetch.fetch**
     -   *polyfillable*: **`yes`**
