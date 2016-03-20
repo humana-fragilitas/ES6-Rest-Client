@@ -76,10 +76,11 @@ fetchConfiguration = {};
   *  
   * @method _httpMethod
   * @param {Symbol} type Determines whether any contents should be sent
-                         as either querystring parameters or body payload
+  *                      as either querystring parameters or body payload
   * @param {String} httpVerb HTTP method to be specified in the GlobalFetch.fetch
   *                          initialization object (reference: ~/src/client.es6.js)
-  * @param {Blob|
+  * @param {Object|
+  *         Blob|
   *         BufferSource|
   *         FormData|
   *         URLSearchParams|
@@ -213,7 +214,7 @@ export default class Configuration {
     /**
      * Restores client settings (routes, querystring parameters,
      * GlobalFetch.fetch initialization object, user defined settings)
-	 * to their defaults
+     * to their defaults
      * 
      * @method reset
      * @param {Boolean} [settings] Optionally allows to also clear any user defined

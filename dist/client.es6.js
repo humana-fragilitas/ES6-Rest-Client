@@ -1,7 +1,7 @@
 /**
- * es6-rest-client - v2.0.1 - Sun, 13 Dec 2015 17:57:16 GMT
+ * es6-rest-client - v2.0.2 - Sun, 20 Mar 2016 17:57:33 GMT
  * https://github.com/humana-fragilitas/ES6-Rest-Client.git
- * Copyright (c) 2015 Andrea Blasio (https://github.com/humana-fragilitas); Licensed MIT
+ * Copyright (c) 2016 Andrea Blasio (https://github.com/humana-fragilitas); Licensed MIT
  */
 /**
  * Given an object, serializes its own key/value pairs into
@@ -136,10 +136,11 @@ fetchConfiguration = {};
   *  
   * @method _httpMethod
   * @param {Symbol} type Determines whether any contents should be sent
-                         as either querystring parameters or body payload
+  *                      as either querystring parameters or body payload
   * @param {String} httpVerb HTTP method to be specified in the GlobalFetch.fetch
   *                          initialization object (reference: ~/src/client.es6.js)
-  * @param {Blob|
+  * @param {Object|
+  *         Blob|
   *         BufferSource|
   *         FormData|
   *         URLSearchParams|
@@ -273,7 +274,7 @@ class Configuration {
     /**
      * Restores client settings (routes, querystring parameters,
      * GlobalFetch.fetch initialization object, user defined settings)
-	 * to their defaults
+     * to their defaults
      * 
      * @method reset
      * @param {Boolean} [settings] Optionally allows to also clear any user defined

@@ -15,7 +15,6 @@ catalogue.products.books().then(function(stream){
 ```
 Required ES6 features
 -----
-~~**Note:** at time of writing, the only browser with full support for the library code is [Firefox (Developer Edition)](https://www.mozilla.org/en-US/firefox/developer/).~~Proxy is now supported in Chrome 49.
 
 *   **GlobalFetch.fetch**
     -   *polyfillable*: **`yes`**
@@ -42,7 +41,6 @@ Usage
 Import the module referenced in the `package.json` file's **`jsnext:main`** field and employ an [ES6-aware bundling tool](https://github.com/rollup/rollup) in the build process of your project; a transpiled, [UMD](https://github.com/umdjs/umd) version of **ES6 Rest Client** is however provided in the `dist` folder for testing purposes. 
 #### ES6 modules (recommended) ####
 ```javascript
-'use strict';
 import restClient from './node_modules/es6-rest-client/dist/client.es6.js';
 . . .
 ```
@@ -96,6 +94,7 @@ const restClient = require('es6-rest-client')['default'];
 ```
 Documentation
 -----
+**Note:** although being written in plain JavaScript, this library adopts the [TypeScript](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md) interface definition standard to document its features.
 ### Public properties ###
 
 | *name* | *chainable* | *getter returns* | *description* |
