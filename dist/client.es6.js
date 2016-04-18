@@ -1,5 +1,5 @@
 /**
- * es6-rest-client - v2.0.2 - Sun, 20 Mar 2016 17:57:33 GMT
+ * es6-rest-client - v3.0.2 - Mon, 18 Apr 2016 22:41:35 GMT
  * https://github.com/humana-fragilitas/ES6-Rest-Client.git
  * Copyright (c) 2016 Andrea Blasio (https://github.com/humana-fragilitas); Licensed MIT
  */
@@ -63,6 +63,24 @@ function appendQueryStringToURL(url, queryString){
     
 }
 
+const __COMPUTED__               = Symbol('ES6_REST_CLIENT_COMPUTED');
+const __ROUTES__                 = Symbol('ES6_REST_CLIENT_ROUTES');
+const __QUERYSTRING_PARAMETERS__ = Symbol('ES6_REST_CLIENT_QUERYSTRING_PARAMETERS');
+const __BODY_PAYLOAD__           = Symbol('ES6_REST_CLIENT_BODY_PAYLOAD');
+
+const SETTINGS                   = Symbol('ES6_REST_CLIENT_SETTINGS');
+const INIT                       = Symbol('ES6_REST_CLIENT_INIT');
+const RESET                      = Symbol('ES6_REST_CLIENT_RESET');
+
+const GET                        = Symbol('ES6_REST_CLIENT_HTTP_GET');
+const HEAD                       = Symbol('ES6_REST_CLIENT_HTTP_HEAD');
+const JSONP                      = Symbol('ES6_REST_CLIENT_HTTP_JSONP');
+const POST                       = Symbol('ES6_REST_CLIENT_HTTP_POST');
+const PUT                        = Symbol('ES6_REST_CLIENT_HTTP_PUT');
+const DELETE                     = Symbol('ES6_REST_CLIENT_HTTP_DELETE');
+const PATCH                      = Symbol('ES6_REST_CLIENT_HTTP_PATCH');
+const OPTIONS                    = Symbol('ES6_REST_CLIENT_HTTP_OPTIONS');
+
 let defaultSettings;
 let userDefinedSettings;
 let properties;
@@ -71,9 +89,6 @@ let fetchConfiguration;
 /************************************/
 /* default assignments              */
 /************************************/
-
-const QUERYSTRING_PARAMETERS = Symbol();
-const BODY_PAYLOAD = Symbol();
 
 /**
  * Stores client default configuration settings
@@ -156,12 +171,12 @@ const _httpMethod = function _httpMethod(type, httpVerb, value){
     
     switch (type) {
         
-        case QUERYSTRING_PARAMETERS:
+        case __QUERYSTRING_PARAMETERS__:
              fetchConfiguration = Object.assign({ method: httpVerb }, fetchConfiguration);
              Object.assign(querystring, value);
              break;
             
-        case BODY_PAYLOAD:        
+        case __BODY_PAYLOAD__:        
              fetchConfiguration = Object.assign({ method: httpVerb },
                                                 (value) ? { body: value } : null);
              break;
@@ -195,8 +210,8 @@ class Configuration {
      *
      * @returns {Array}
      */
-
-    get properties(){
+    
+    get [__ROUTES__](){
 
         return properties;
 
@@ -209,8 +224,8 @@ class Configuration {
      *
      * @returns {Array}
      */
-
-    get computed(){
+    
+    get [__COMPUTED__](){
 
         let settings,
             configuration,
@@ -221,11 +236,12 @@ class Configuration {
         settings = Object.assign({}, defaultSettings, userDefinedSettings);
         configuration = Object.assign({ method: settings.method }, fetchConfiguration);
         params = objectToQueryString(Object.assign({}, querystring, settings.params));
+        
         route = appendQueryStringToURL((settings.baseURI + properties.join('/')),
                                         params);
         jsonPCallback = settings.jsonp;
         
-        this.reset();
+        this[RESET]();
 
         return [route, configuration, jsonPCallback];
  
@@ -242,8 +258,8 @@ class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-
-    settings(obj){
+     
+    [SETTINGS](obj){
          
         Object.assign(userDefinedSettings, obj);
         
@@ -262,8 +278,8 @@ class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-
-    init(obj){
+    
+    [INIT](obj){
     
         fetchConfiguration = obj;
         
@@ -282,8 +298,8 @@ class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-
-    reset(settings){
+    
+    [RESET](settings){
 
         properties.length = 0; 
         querystring = {};
@@ -310,9 +326,9 @@ class Configuration {
      *                   marked as HTTP-related
      */
     
-    get(obj){
+    [GET](obj){
         
-        _httpMethod(QUERYSTRING_PARAMETERS, 'get', obj);
+        _httpMethod(__QUERYSTRING_PARAMETERS__, 'get', obj);
 
         return true;
 
@@ -328,10 +344,10 @@ class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-     
-    head(obj){
+    
+    [HEAD](obj){
 
-        _httpMethod(QUERYSTRING_PARAMETERS, 'head', obj);
+        _httpMethod(__QUERYSTRING_PARAMETERS__, 'head', obj);
 
         return true;
 
@@ -347,10 +363,10 @@ class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-     
-    jsonp(obj){
+    
+    [JSONP](obj){
 
-        _httpMethod(QUERYSTRING_PARAMETERS, 'jsonp', obj);
+        _httpMethod(__QUERYSTRING_PARAMETERS__, 'jsonp', obj);
 
         return true;
 
@@ -370,10 +386,10 @@ class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
+    
+    [POST](payload){
 
-    post(payload){
-
-        _httpMethod(BODY_PAYLOAD, 'post', payload);
+        _httpMethod(__BODY_PAYLOAD__, 'post', payload);
 
         return true;
 
@@ -393,10 +409,10 @@ class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
+    
+    [PUT](payload){
 
-    put(payload){
-
-        _httpMethod(BODY_PAYLOAD, 'put', payload);
+        _httpMethod(__BODY_PAYLOAD__, 'put', payload);
 
         return true;
 
@@ -416,10 +432,10 @@ class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
+    
+    [DELETE](payload){
 
-    delete(payload){
-
-        _httpMethod(BODY_PAYLOAD, 'delete', payload);
+        _httpMethod(__BODY_PAYLOAD__, 'delete', payload);
 
         return true;
 
@@ -439,10 +455,10 @@ class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
+    
+    [PATCH](payload){
 
-    patch(payload){
-
-        _httpMethod(BODY_PAYLOAD, 'patch', payload);
+        _httpMethod(__BODY_PAYLOAD__, 'patch', payload);
 
         return true;
 
@@ -462,15 +478,15 @@ class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-     
-    options(payload){
+    
+    [OPTIONS](payload){
 
-        _httpMethod(BODY_PAYLOAD, 'options', payload);
+        _httpMethod(__BODY_PAYLOAD__, 'options', payload);
 
         return true;
 
     }
-
+    
 }
 
 /************************************/
@@ -595,8 +611,6 @@ const configuration = new Configuration();
 
 const _trapMethod = function _trapMethod(target, thisArg, argumentsList){
     
-    const DEFAULT_HTTP_VERB = 'get';
-    
     let properties,
         propertiesLength,
         currentProperty,
@@ -604,7 +618,7 @@ const _trapMethod = function _trapMethod(target, thisArg, argumentsList){
         isHTTPVerb,
         hasDefaultHTTPVerb;
 
-    properties = configuration.properties;
+    properties = configuration[__ROUTES__];
     propertiesLength = properties.length;
     currentProperty = properties[propertiesLength-1];
     isMethodName = (typeof configuration[currentProperty] === 'function');
@@ -613,12 +627,12 @@ const _trapMethod = function _trapMethod(target, thisArg, argumentsList){
                                                argumentsList);
     hasDefaultHTTPVerb = !isMethodName &&
                          !isHTTPVerb &&
-                          Reflect.apply(configuration[DEFAULT_HTTP_VERB],
+                          Reflect.apply(configuration[GET],
                                         configuration,
                                         argumentsList);
         
     return (isHTTPVerb || hasDefaultHTTPVerb) ?
-        Reflect.apply(target.fetch, target, configuration.computed) :
+        Reflect.apply(target.fetch, target, configuration[__COMPUTED__]) :
             restClientProxy;
                     
 };
@@ -634,8 +648,8 @@ const _trapMethod = function _trapMethod(target, thisArg, argumentsList){
  */
 
 const _trapProperty = function _trapProperty(target, propKey, receiver){
-
-    configuration.properties.push(propKey);
+    
+    configuration[__ROUTES__].push(propKey); 
 
     return receiver;
 
@@ -668,5 +682,5 @@ const restClientProxy = new Proxy(RestClient,
 
 });
 
-export default restClientProxy;
+export { INIT, SETTINGS, RESET, GET, HEAD, JSONP, POST, PUT, DELETE, PATCH, OPTIONS };export default restClientProxy;
 //# sourceMappingURL=client.es6.js.map

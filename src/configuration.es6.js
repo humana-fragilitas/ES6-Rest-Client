@@ -2,6 +2,22 @@ import { objectToQueryString,
          appendQueryStringToURL,
          prefixedTimestamp } from './helpers.es6.js';
 
+import { __ROUTES__,
+         __COMPUTED__,
+         __QUERYSTRING_PARAMETERS__,
+         __BODY_PAYLOAD__,
+           SETTINGS,
+           INIT,
+           RESET,
+           GET, 
+           HEAD,
+           JSONP,
+           POST, 
+           PUT,
+           DELETE,
+           PATCH,
+           OPTIONS } from './symbols.es6.js';
+         
 let defaultSettings,
     userDefinedSettings,
     properties,
@@ -11,9 +27,6 @@ let defaultSettings,
 /************************************/
 /* default assignments              */
 /************************************/
-
-const QUERYSTRING_PARAMETERS = Symbol();
-const BODY_PAYLOAD = Symbol();
 
 /**
  * Stores client default configuration settings
@@ -96,12 +109,12 @@ const _httpMethod = function _httpMethod(type, httpVerb, value){
     
     switch (type) {
         
-        case QUERYSTRING_PARAMETERS:
+        case __QUERYSTRING_PARAMETERS__:
              fetchConfiguration = Object.assign({ method: httpVerb }, fetchConfiguration);
              Object.assign(querystring, value);
              break;
             
-        case BODY_PAYLOAD:        
+        case __BODY_PAYLOAD__:        
              fetchConfiguration = Object.assign({ method: httpVerb },
                                                 (value) ? { body: value } : null);
              break;
@@ -135,8 +148,8 @@ export default class Configuration {
      *
      * @returns {Array}
      */
-
-    get properties(){
+    
+    get [__ROUTES__](){
 
         return properties;
 
@@ -149,8 +162,8 @@ export default class Configuration {
      *
      * @returns {Array}
      */
-
-    get computed(){
+    
+    get [__COMPUTED__](){
 
         let settings,
             configuration,
@@ -161,11 +174,12 @@ export default class Configuration {
         settings = Object.assign({}, defaultSettings, userDefinedSettings);
         configuration = Object.assign({ method: settings.method }, fetchConfiguration);
         params = objectToQueryString(Object.assign({}, querystring, settings.params));
+        
         route = appendQueryStringToURL((settings.baseURI + properties.join('/')),
                                         params);
         jsonPCallback = settings.jsonp;
         
-        this.reset();
+        this[RESET]();
 
         return [route, configuration, jsonPCallback];
  
@@ -182,8 +196,8 @@ export default class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-
-    settings(obj){
+     
+    [SETTINGS](obj){
          
         Object.assign(userDefinedSettings, obj);
         
@@ -202,8 +216,8 @@ export default class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-
-    init(obj){
+    
+    [INIT](obj){
     
         fetchConfiguration = obj;
         
@@ -222,8 +236,8 @@ export default class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-
-    reset(settings){
+    
+    [RESET](settings){
 
         properties.length = 0; 
         querystring = {};
@@ -250,9 +264,9 @@ export default class Configuration {
      *                   marked as HTTP-related
      */
     
-    get(obj){
+    [GET](obj){
         
-        _httpMethod(QUERYSTRING_PARAMETERS, 'get', obj);
+        _httpMethod(__QUERYSTRING_PARAMETERS__, 'get', obj);
 
         return true;
 
@@ -268,10 +282,10 @@ export default class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-     
-    head(obj){
+    
+    [HEAD](obj){
 
-        _httpMethod(QUERYSTRING_PARAMETERS, 'head', obj);
+        _httpMethod(__QUERYSTRING_PARAMETERS__, 'head', obj);
 
         return true;
 
@@ -287,10 +301,10 @@ export default class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-     
-    jsonp(obj){
+    
+    [JSONP](obj){
 
-        _httpMethod(QUERYSTRING_PARAMETERS, 'jsonp', obj);
+        _httpMethod(__QUERYSTRING_PARAMETERS__, 'jsonp', obj);
 
         return true;
 
@@ -310,10 +324,10 @@ export default class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
+    
+    [POST](payload){
 
-    post(payload){
-
-        _httpMethod(BODY_PAYLOAD, 'post', payload);
+        _httpMethod(__BODY_PAYLOAD__, 'post', payload);
 
         return true;
 
@@ -333,10 +347,10 @@ export default class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
+    
+    [PUT](payload){
 
-    put(payload){
-
-        _httpMethod(BODY_PAYLOAD, 'put', payload);
+        _httpMethod(__BODY_PAYLOAD__, 'put', payload);
 
         return true;
 
@@ -356,10 +370,10 @@ export default class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
+    
+    [DELETE](payload){
 
-    delete(payload){
-
-        _httpMethod(BODY_PAYLOAD, 'delete', payload);
+        _httpMethod(__BODY_PAYLOAD__, 'delete', payload);
 
         return true;
 
@@ -379,10 +393,10 @@ export default class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
+    
+    [PATCH](payload){
 
-    patch(payload){
-
-        _httpMethod(BODY_PAYLOAD, 'patch', payload);
+        _httpMethod(__BODY_PAYLOAD__, 'patch', payload);
 
         return true;
 
@@ -402,13 +416,13 @@ export default class Configuration {
      * @return {Boolean} Determines whether the method should be
      *                   marked as HTTP-related
      */
-     
-    options(payload){
+    
+    [OPTIONS](payload){
 
-        _httpMethod(BODY_PAYLOAD, 'options', payload);
+        _httpMethod(__BODY_PAYLOAD__, 'options', payload);
 
         return true;
 
     }
-
+    
 }

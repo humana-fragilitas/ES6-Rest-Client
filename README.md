@@ -102,26 +102,33 @@ Documentation
 | `[any]` | `yes` | `RestClient` | Any property getter invoked on the client instance causes an equally named, slash separated route fragment to be incrementally stored in the current configuration cache. |
 
 ### Public methods ###
+Version **`3.0.2`** introduces public methods keys as computed symbols in order to achieve higher encapsulation; member functions are now accessed by selectively importing and referencing the corresponding entities:
+```javascript
+import catalogue, { POST } from './node_modules/es6-rest-client/dist/client.es6.js';
+
+catalogue.products.books[POST](JSON.stringify({ title: "Commodore 64 User's Guide" }));
+```
+
 #### Configuration ####
 | *name* | *chainable* | *description* |
 | :--    | :--         | :--           |
-| `settings(obj?:Object):RestClient` | `yes` | Overrides client instance [default settings](#settings-object) with user defined values, persisting them in the configuration cache across subsequent calls, unless explicitly either modified or reset. |
-| `init(obj?:Object):RestClient` | `yes` | Allows to pass an [initialization object](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch#Parameters) to the underlying **`GlobalFetch.fetch`** method call. |
-| `reset(settings?:Boolean):RestClient` | `yes` | Restores client to its defaults, except for the settings; passing a truthy value as an argument also reestablishes the latter. |
+| `[SETTINGS](obj?:Object):RestClient` | `yes` | Overrides client instance [default settings](#settings-object) with user defined values, persisting them in the configuration cache across subsequent calls, unless explicitly either modified or reset. |
+| `[INIT](obj?:Object):RestClient` | `yes` | Allows to pass an [initialization object](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch#Parameters) to the underlying **`GlobalFetch.fetch`** method call. |
+| `[RESET](settings?:Boolean):RestClient` | `yes` | Restores client to its defaults, except for the settings; passing a truthy value as an argument also reestablishes the latter. |
 
 #### HTTP verbs ####
 | *name* | *chainable* | *description* |
 | :--    | :--         | :--           |
-| `get(params?:Object):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP GET`**. Any object passed as argument is serialized into querystring.  |
-| `head(params?:Object):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP HEAD`**. Any object passed as argument is serialized into querystring. |
-| `jsonp(params?:Object):Promise<any>` | `no` | Starts the process of fetching a JSON-encoded resource via **`JSONP`** technique. Any object passed as argument is serialized into querystring. |
-| `post(payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP POST`**. Any object passed as argument is sent as payload. |
-| `put(payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP PUT`**. Any object passed as argument is sent as payload. |
-| `delete(payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP DELETE`**. Any object passed as argument is sent as payload. |
-| `patch(payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP PATCH`**. Any object passed as argument is sent as payload. |
-| `options(payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP OPTIONS`**. Any object passed as argument is sent as payload. |
+| `[GET](params?:Object):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP GET`**. Any object passed as argument is serialized into querystring.  |
+| `[HEAD](params?:Object):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP HEAD`**. Any object passed as argument is serialized into querystring. |
+| `[JSONP](params?:Object):Promise<any>` | `no` | Starts the process of fetching a JSON-encoded resource via **`JSONP`** technique. Any object passed as argument is serialized into querystring. |
+| `[POST](payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP POST`**. Any object passed as argument is sent as payload. |
+| `[PUT](payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP PUT`**. Any object passed as argument is sent as payload. |
+| `[DELETE](payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP DELETE`**. Any object passed as argument is sent as payload. |
+| `[PATCH](payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP PATCH`**. Any object passed as argument is sent as payload. |
+| `[OPTIONS](payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP OPTIONS`**. Any object passed as argument is sent as payload. |
 
-**Note:** invoking a non-existent method on the **ES6 Rest Client** causes its name to be parsed as a route fragment and the **`get()`** method to be implicitly called with any arguments given in the former (see the [example](#es6-rest-client-beta) above).
+**Note:** invoking a non-existent method on the **ES6 Rest Client** causes its name to be parsed as a route fragment and the **`[GET]()`** method to be implicitly called with any arguments given in the former (see the [example](#es6-rest-client-beta) above).
 
 ### Settings object ###
 
@@ -140,9 +147,9 @@ Examples
 
 ##### `~/scripts/helpers/etsyAPIClient.js `#####
 ```javascript
-import etsyAPIClient from '../../node_modules/es6-rest-client/dist/client.es6.js';
+import etsyAPIClient, { SETTINGS } from '../../node_modules/es6-rest-client/dist/client.es6.js';
 
-etsyAPIClient.settings({
+etsyAPIClient[SETTINGS]({
     
     method: 'JSONP',
     baseURI: 'https://openapi.etsy.com/v2/',
@@ -174,11 +181,11 @@ Etsy.listings['active.js']().then((response) => {
 ### 2. Fetching a resource upon successful existence check ###
 ##### `~/scripts/helpers/fetchIfExists.js` #####
 ```javascript
-import restClient from '../../node_modules/es6-rest-client/dist/client.es6.js';
+import restClient, { SETTINGS, RESET } from '../../node_modules/es6-rest-client/dist/client.es6.js';
 
 function fileExists(fileName, interval){
 
-    restClient.settings({
+    restClient[SETTINGS]({
         method: 'head',
         params: { _: function(){ return (new Date()).getTime(); } }
     });
@@ -197,7 +204,7 @@ function fileExists(fileName, interval){
 function fetchIfExists(fileName, interval){
 
     return fileExists(fileName, interval).then(() => {
-        return restClient.reset(true)[fileName]();
+        return restClient[RESET](true)[fileName]();
     });
     
 }
@@ -216,6 +223,100 @@ fetchIfExists('catalogue_01062015.json', 2000).then((stream) => {
     });
     
 });
+```
+
+### 3. Conditional chaining of requests ###
+#### 3.1 Via generator based control flow with [co](https://github.com/tj/co) library ####
+##### `~/scripts/helpers/bookShelf.js` #####
+```javascript
+import user from '../../node_modules/es6-rest-client/dist/client.es6.js';
+
+/**
+ * declare 'co' library as an external dependency
+ * in your favourite bundling tool configuration file;
+ * rollup reference: https://github.com/rollup/rollup/wiki/JavaScript-API#external
+ */
+
+import co from 'co';
+
+const bookShelf = co.wrap(function* (){
+    
+    const sessionResponse = yield user.session();
+    
+    if (sessionResponse.ok) {
+        
+        return yield user.bookshelf();
+        
+    } else {
+        
+        const localBookshelf = new Blob([localStorage.getItem('bookshelf')],
+                                        {type: 'application/json'});
+        const cachedResponse = new Response(localBookshelf, { status: 200 });
+        return yield Promise.resolve(cachedResponse);
+        
+    }
+    
+});
+
+export default bookShelf;
+```
+
+##### `~/scripts/app.js `#####
+```javascript
+import bookShelf from './helpers/bookShelf.js';
+
+bookShelf().then(function(stream){
+
+    stream.json().then(function(response){
+        console.dir(response.collection);
+    });
+
+}, function(error){
+    console.log(error);
+});
+
+```
+
+#### 3.2 Via ES7 async functions ####
+##### `~/scripts/helpers/bookShelf.js` #####
+```javascript
+import user from '../../node_modules/es6-rest-client/dist/client.es6.js';
+
+async function bookShelf(){
+
+    const sessionResponse = await user.session();
+    
+    if (sessionResponse.ok) {
+        
+        return await user.bookshelf();
+        
+    } else {
+        
+        const localBookshelf = new Blob([localStorage.getItem('bookshelf')],
+                                        {type: 'application/json'});
+        const cachedResponse = new Response(localBookshelf, { status: 200 });
+        
+        return Promise.resolve(cachedResponse);
+        
+    }
+
+}
+
+export default bookShelf;
+```
+##### `~/scripts/app.js `#####
+```javascript
+import bookShelf from './helpers/bookShelf.js';
+
+(async function(){
+    try {
+        (await bookShelf()).json().then(function(response){
+            console.dir(response.collection);
+        });
+    } catch (exception) {
+        console.log(exception);
+    }
+}());
 ```
 
 ### Testing ###

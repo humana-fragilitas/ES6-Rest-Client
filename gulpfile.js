@@ -39,18 +39,29 @@ gulp.task('js-lint-dist', () => {
                .pipe(eslint.failAfterError());
 
 });
+
+gulp.task('dist-test-es6', ['dist-script-es6'], () => {
+
+    return gulp.src('test/test.es6.js')
+               .pipe(plumber({ errorHandler: notify.onError(errorHandler) }))
+               .pipe(rollup())
+               .pipe(rename('test.js'))
+               .pipe(plumber.stop())
+               .pipe(gulp.dest('test'));
+
+});
     
 gulp.task('dist-script-es6', ['js-lint-dist'], () => {
 
-    return gulp.src('src/proxy.es6.js')
-               .pipe(plumber({ errorHandler: notify.onError(errorHandler) }))
-               .pipe(sourcemaps.init())
-               .pipe(rollup({ sourceMap: true }))
-               .pipe(rename('client.es6.js'))
-               .pipe(header(headerTemplate, packageInfo))
-               .pipe(sourcemaps.write('.'))
-               .pipe(plumber.stop())
-               .pipe(gulp.dest('dist'));
+   return gulp.src('src/proxy.es6.js')
+              .pipe(plumber({ errorHandler: notify.onError(errorHandler) }))
+              .pipe(sourcemaps.init())
+              .pipe(rollup({ sourceMap: true }))
+              .pipe(rename('client.es6.js'))
+              .pipe(header(headerTemplate, packageInfo))
+              .pipe(sourcemaps.write('.'))
+              .pipe(plumber.stop())
+              .pipe(gulp.dest('dist'));
 
 });
 
@@ -91,4 +102,4 @@ gulp.task('watch', () =>  {
     
 });
 
-gulp.task('default', ['dist-script-es6', 'dist-script-umd']);
+gulp.task('default', ['dist-script-es6', 'dist-test-es6', 'dist-script-umd']);

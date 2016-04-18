@@ -1,5 +1,6 @@
 import Configuration from './configuration.es6.js';
 import RestClient from './client.es6.js';
+import { __ROUTES__, __COMPUTED__, GET } from './symbols.es6.js';
 
 /************************************/
 /* default assignments              */
@@ -27,8 +28,6 @@ const configuration = new Configuration();
 
 const _trapMethod = function _trapMethod(target, thisArg, argumentsList){
     
-    const DEFAULT_HTTP_VERB = 'get';
-    
     let properties,
         propertiesLength,
         currentProperty,
@@ -36,7 +35,7 @@ const _trapMethod = function _trapMethod(target, thisArg, argumentsList){
         isHTTPVerb,
         hasDefaultHTTPVerb;
 
-    properties = configuration.properties;
+    properties = configuration[__ROUTES__];
     propertiesLength = properties.length;
     currentProperty = properties[propertiesLength-1];
     isMethodName = (typeof configuration[currentProperty] === 'function');
@@ -45,12 +44,12 @@ const _trapMethod = function _trapMethod(target, thisArg, argumentsList){
                                                argumentsList);
     hasDefaultHTTPVerb = !isMethodName &&
                          !isHTTPVerb &&
-                          Reflect.apply(configuration[DEFAULT_HTTP_VERB],
+                          Reflect.apply(configuration[GET],
                                         configuration,
                                         argumentsList);
         
     return (isHTTPVerb || hasDefaultHTTPVerb) ?
-        Reflect.apply(target.fetch, target, configuration.computed) :
+        Reflect.apply(target.fetch, target, configuration[__COMPUTED__]) :
             restClientProxy;
                     
 };
@@ -66,8 +65,8 @@ const _trapMethod = function _trapMethod(target, thisArg, argumentsList){
  */
 
 const _trapProperty = function _trapProperty(target, propKey, receiver){
-
-    configuration.properties.push(propKey);
+    
+    configuration[__ROUTES__].push(propKey); 
 
     return receiver;
 
@@ -101,3 +100,15 @@ const restClientProxy = new Proxy(RestClient,
 });
 
 export default restClientProxy;
+
+export { INIT,
+         SETTINGS,
+         RESET,
+         GET, 
+         HEAD,
+         JSONP,
+         POST, 
+         PUT,
+         DELETE,
+         PATCH,
+         OPTIONS } from './symbols.es6.js';
