@@ -113,7 +113,7 @@ catalogue.products.books[POST](JSON.stringify({ title: "Commodore 64 User's Guid
 | *name* | *chainable* | *description* |
 | :--    | :--         | :--           |
 | `[SETTINGS](obj?:Object):RestClient` | `yes` | Overrides client instance [default settings](#settings-object) with user defined values, persisting them in the configuration cache across subsequent calls, unless explicitly either modified or reset. |
-| `[INIT](obj?:Object):RestClient` | `yes` | Allows to pass an [initialization object](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch#Parameters) to the underlying **`GlobalFetch.fetch`** method call. |
+| `[INIT](obj?:RequestInit):RestClient` | `yes` | Allows to pass an [initialization object](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch#Parameters) to the underlying **`GlobalFetch.fetch`** method call. |
 | `[RESET](settings?:Boolean):RestClient` | `yes` | Restores client to its defaults, except for the settings; passing a truthy value as an argument also reestablishes the latter. |
 
 #### HTTP verbs ####
@@ -145,7 +145,7 @@ Examples
 ### 1. Creating and exporting a third-party API client ###
 **Note:** the term 'Etsy' is a trademark of Etsy, Inc. The following code sample uses the [Etsy API](https://www.etsy.com/developers/) but is not endorsed or certified by Etsy, Inc.
 
-##### `~/scripts/helpers/etsyAPIClient.js `#####
+##### `~/scripts/helpers/etsyAPIClient.js` #####
 ```javascript
 import etsyAPIClient, { SETTINGS } from '../../node_modules/es6-rest-client/dist/client.es6.js';
 
@@ -163,9 +163,9 @@ etsyAPIClient[SETTINGS]({
 export default etsyAPIClient;
 ```
 
-##### `~/scripts/app.js `#####
+##### `~/scripts/app.js` #####
 ```javascript
-import Etsy from 'helpers/etsyAPIClient.js';
+import Etsy from './helpers/etsyAPIClient.js';
 
 /**
  * Enclosing a route fragment into square brackets
@@ -186,7 +186,7 @@ import restClient, { SETTINGS, RESET } from '../../node_modules/es6-rest-client/
 function fileExists(fileName, interval){
 
     restClient[SETTINGS]({
-        method: 'head',
+        method: 'HEAD',
         params: { _: function(){ return (new Date()).getTime(); } }
     });
     
@@ -212,7 +212,7 @@ function fetchIfExists(fileName, interval){
 export default fetchIfExists
 ```
 
-##### `~/scripts/app.js `#####
+##### `~/scripts/app.js` #####
 ```javascript
 import fetchIfExists from './helpers/fetchIfExists.js';
 
@@ -227,19 +227,19 @@ fetchIfExists('catalogue_01062015.json', 2000).then((stream) => {
 
 ### 3. Conditional chaining of requests ###
 #### 3.1 Via generator based control flow with [co](https://github.com/tj/co) library ####
-##### `~/scripts/helpers/bookShelf.js` #####
+##### `~/scripts/helpers/bookshelf.js` #####
 ```javascript
 import user from '../../node_modules/es6-rest-client/dist/client.es6.js';
 
 /**
- * declare 'co' library as an external dependency
- * in your favourite bundling tool configuration file;
- * rollup reference: https://github.com/rollup/rollup/wiki/JavaScript-API#external
+ * you may want to declare the 'co' library as an external dependency
+ * in your favourite bundling tool options; rollup reference:
+ * https://github.com/rollup/rollup/wiki/JavaScript-API#external
  */
 
 import co from 'co';
 
-const bookShelf = co.wrap(function* (){
+const bookshelf = co.wrap(function* (){
     
     const sessionResponse = yield user.session();
     
@@ -258,14 +258,14 @@ const bookShelf = co.wrap(function* (){
     
 });
 
-export default bookShelf;
+export default bookshelf;
 ```
 
-##### `~/scripts/app.js `#####
+##### `~/scripts/app.js` #####
 ```javascript
-import bookShelf from './helpers/bookShelf.js';
+import bookshelf from './helpers/bookshelf.js';
 
-bookShelf().then(function(stream){
+bookshelf().then(function(stream){
 
     stream.json().then(function(response){
         console.dir(response.collection);
@@ -278,11 +278,11 @@ bookShelf().then(function(stream){
 ```
 
 #### 3.2 Via ES7 async functions ####
-##### `~/scripts/helpers/bookShelf.js` #####
+##### `~/scripts/helpers/bookshelf.js` #####
 ```javascript
 import user from '../../node_modules/es6-rest-client/dist/client.es6.js';
 
-async function bookShelf(){
+async function bookshelf(){
 
     const sessionResponse = await user.session();
     
@@ -295,22 +295,21 @@ async function bookShelf(){
         const localBookshelf = new Blob([localStorage.getItem('bookshelf')],
                                         {type: 'application/json'});
         const cachedResponse = new Response(localBookshelf, { status: 200 });
-        
         return Promise.resolve(cachedResponse);
         
     }
 
 }
 
-export default bookShelf;
+export default bookshelf;
 ```
-##### `~/scripts/app.js `#####
+##### `~/scripts/app.js ` #####
 ```javascript
-import bookShelf from './helpers/bookShelf.js';
+import bookshelf from './helpers/bookshelf.js';
 
 (async function(){
     try {
-        (await bookShelf()).json().then(function(response){
+        (await bookshelf()).json().then(function(response){
             console.dir(response.collection);
         });
     } catch (exception) {

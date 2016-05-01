@@ -9,8 +9,8 @@
     "rest",
     "client"
   ],
-  "version": "3.0.2",
-  "main": "./dist/client.umd.js",
+  "version": "3.0.3",
+  "main": "./dist/client.es6.js",
   "jsnext:main": "./dist/client.es6.js",
   "homepage": "https://github.com/humana-fragilitas/ES6-Rest-Client.git",
   "repository": {
