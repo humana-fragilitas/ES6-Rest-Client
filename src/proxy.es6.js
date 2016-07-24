@@ -92,9 +92,17 @@ const restClientProxy = new Proxy(RestClient,
     },
 
     apply(target, thisArg, argumentsList) {
+        
+        try {
+            
+            return _trapMethod(target, thisArg, argumentsList);
+            
+        } catch (e) {
 
-        return _trapMethod(target, thisArg, argumentsList);
+            throw new Error(`ES6 Rest Client: ${e.name}: ${e.message}`);
 
+        }
+        
     }
 
 });

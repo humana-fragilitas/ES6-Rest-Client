@@ -19,7 +19,7 @@ let packageInfo = require('./package.json'),
                      ' * <%= name %> - v<%= version %> - ' +
                      '<%= (new Date()).toUTCString() %>\n' +
                      '<%= homepage ? " * " + homepage + "\\n" : "" %>' +
-                     ' * Copyright (c) <%= (new Date()).getFullYear()  %> <%= author %>;' +
+                     ' * Copyright (c) 2015-<%= (new Date()).getFullYear()  %> <%= author %>;' +
                      ' Licensed <%= license %>\n' +
                      ' */\n';
 

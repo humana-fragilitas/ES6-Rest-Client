@@ -10,9 +10,8 @@ import restClient, { SETTINGS,
                      PUT,
                      DELETE,
                      PATCH,
-                     OPTIONS } from '../dist/client.es6.js';
-                     
-            
+                     OPTIONS } from '../dist/client.es6.js';             
+           
 QUnit.module('ES6 Rest Client', (hooks) => {
     
     hooks.beforeEach(() => {

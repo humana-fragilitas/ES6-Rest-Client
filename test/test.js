@@ -1,7 +1,7 @@
 /**
- * es6-rest-client - v3.0.3 - Sun, 01 May 2016 19:19:42 GMT
+ * es6-rest-client - v3.0.4 - Sun, 24 Jul 2016 19:07:21 GMT
  * https://github.com/humana-fragilitas/ES6-Rest-Client.git
- * Copyright (c) 2016 Andrea Blasio (https://github.com/humana-fragilitas); Licensed MIT
+ * Copyright (c) 2015-2016 Andrea Blasio (https://github.com/humana-fragilitas); Licensed MIT
  */
 /**
  * Given an object, serializes its own key/value pairs into
@@ -135,7 +135,7 @@ querystring = {};
  * GlobalFetch.fetch method initialization object
  * (reference: https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch#Parameters)
  *
- * @type Object
+ * @type RequestInit
  */
 
 fetchConfiguration = {};
@@ -163,6 +163,7 @@ fetchConfiguration = {};
   *                          specified as body payload in the GlobalFetch.fetch
   *                          initialization object, depending on the
   *                          chosen HTTP method (reference: ~/src/client.es6.js)
+  * @return {RequestInit} GlobalFetch.fetch configuration
   *                                                                      
   * @private
   */
@@ -170,18 +171,20 @@ fetchConfiguration = {};
 const _httpMethod = function _httpMethod(type, httpVerb, value){
     
     switch (type) {
-        
-        case __QUERYSTRING_PARAMETERS__:
-             fetchConfiguration = Object.assign({ method: httpVerb }, fetchConfiguration);
-             Object.assign(querystring, value);
-             break;
             
+        case __QUERYSTRING_PARAMETERS__:
+            fetchConfiguration = Object.assign({ method: httpVerb }, fetchConfiguration);
+            Object.assign(querystring, value);
+            break;
+
         case __BODY_PAYLOAD__:        
-             fetchConfiguration = Object.assign({ method: httpVerb },
-                                                (value) ? { body: value } : null);
-             break;
+            fetchConfiguration = Object.assign({ method: httpVerb },
+                                               (value) ? { body: value } : null);
+            break;
         
     }
+    
+    return fetchConfiguration;
     
 };
 
@@ -322,15 +325,12 @@ class Configuration {
      * @param {Object} [obj] Object whose key/value pairs are meant
      *                       to be serialized into querystring; values
      *                       can be either primitive types or function expressions
-     * @return {Boolean} Determines whether the method should be
-     *                   marked as HTTP-related
+     * @return {RequestInit} GlobalFetch.fetch configuration object
      */
     
     [GET](obj){
         
-        _httpMethod(__QUERYSTRING_PARAMETERS__, 'get', obj);
-
-        return true;
+        return _httpMethod(__QUERYSTRING_PARAMETERS__, 'get', obj);
 
     }
     
@@ -341,15 +341,12 @@ class Configuration {
      * @param {Object} [obj] Object whose key/value pairs are meant
      *                       to be serialized into querystring; values
      *                       can be either primitive types or function expressions
-     * @return {Boolean} Determines whether the method should be
-     *                   marked as HTTP-related
+     * @return {RequestInit} GlobalFetch.fetch configuration object
      */
     
     [HEAD](obj){
 
-        _httpMethod(__QUERYSTRING_PARAMETERS__, 'head', obj);
-
-        return true;
+        return _httpMethod(__QUERYSTRING_PARAMETERS__, 'head', obj);
 
     }
     
@@ -360,15 +357,12 @@ class Configuration {
      * @param {Object} [obj] Object whose key/value pairs are meant
      *                       to be serialized into querystring; values
      *                       can be either primitive types or function expressions
-     * @return {Boolean} Determines whether the method should be
-     *                   marked as HTTP-related
+     * @return {RequestInit} GlobalFetch.fetch configuration object
      */
     
     [JSONP](obj){
 
-        _httpMethod(__QUERYSTRING_PARAMETERS__, 'jsonp', obj);
-
-        return true;
+        return _httpMethod(__QUERYSTRING_PARAMETERS__, 'jsonp', obj);
 
     }
     
@@ -383,15 +377,12 @@ class Configuration {
      *         USVString} [payload] Value meant to be specified as body payload
      *                              in the underlying GlobalFetch.fetch implementation
      *                              initialization object
-     * @return {Boolean} Determines whether the method should be
-     *                   marked as HTTP-related
+     * @return {RequestInit} GlobalFetch.fetch configuration object
      */
     
     [POST](payload){
 
-        _httpMethod(__BODY_PAYLOAD__, 'post', payload);
-
-        return true;
+        return _httpMethod(__BODY_PAYLOAD__, 'post', payload);
 
     }
     
@@ -406,15 +397,12 @@ class Configuration {
      *         USVString} [payload] Value meant to be specified as body payload
      *                              in the underlying GlobalFetch.fetch implementation
      *                              initialization object
-     * @return {Boolean} Determines whether the method should be
-     *                   marked as HTTP-related
+     * @return {RequestInit} GlobalFetch.fetch configuration object
      */
     
     [PUT](payload){
 
-        _httpMethod(__BODY_PAYLOAD__, 'put', payload);
-
-        return true;
+        return _httpMethod(__BODY_PAYLOAD__, 'put', payload);
 
     }
     
@@ -429,15 +417,12 @@ class Configuration {
      *         USVString} [payload] Value meant to be specified as body payload
      *                              in the underlying GlobalFetch.fetch implementation
      *                              initialization object
-     * @return {Boolean} Determines whether the method should be
-     *                   marked as HTTP-related
+     * @return {RequestInit} GlobalFetch.fetch configuration object
      */
     
     [DELETE](payload){
 
-        _httpMethod(__BODY_PAYLOAD__, 'delete', payload);
-
-        return true;
+        return _httpMethod(__BODY_PAYLOAD__, 'delete', payload);
 
     }
     
@@ -452,15 +437,12 @@ class Configuration {
      *         USVString} [payload] Value meant to be specified as body payload
      *                              in the underlying GlobalFetch.fetch implementation
      *                              initialization object
-     * @return {Boolean} Determines whether the method should be
-     *                   marked as HTTP-related
+     * @return {RequestInit} GlobalFetch.fetch configuration object
      */
     
     [PATCH](payload){
 
-        _httpMethod(__BODY_PAYLOAD__, 'patch', payload);
-
-        return true;
+        return _httpMethod(__BODY_PAYLOAD__, 'patch', payload);
 
     }
 
@@ -475,15 +457,12 @@ class Configuration {
      *         USVString} [payload] Value meant to be specified as body payload
      *                              in the underlying GlobalFetch.fetch implementation
      *                              initialization object
-     * @return {Boolean} Determines whether the method should be
-     *                   marked as HTTP-related
+     * @return {RequestInit} GlobalFetch.fetch configuration object
      */
     
     [OPTIONS](payload){
 
-        _httpMethod(__BODY_PAYLOAD__, 'options', payload);
-
-        return true;
+        return _httpMethod(__BODY_PAYLOAD__, 'options', payload);
 
     }
     
@@ -675,9 +654,17 @@ const restClientProxy = new Proxy(RestClient,
     },
 
     apply(target, thisArg, argumentsList) {
+        
+        try {
+            
+            return _trapMethod(target, thisArg, argumentsList);
+            
+        } catch (e) {
 
-        return _trapMethod(target, thisArg, argumentsList);
+            throw new Error(`ES6 Rest Client: ${e.name}: ${e.message}`);
 
+        }
+        
     }
 
 });

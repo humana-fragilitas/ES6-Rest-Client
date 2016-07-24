@@ -1,7 +1,7 @@
-ES6 Rest Client <sup>(beta)</sup>
+ES6 Rest Client
 ==========
 
-The **ES6 Rest Client** is an experimental JavaScript library aimed to ease up communication with HTTP-based RESTful APIs via an highly semantic, fluent interface that leverages rising ECMAScript 6 language features such as [GlobalFetch](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch), [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) and the meta-programming capabilities of the [Proxy](https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/Proxy) object, allowing routes to be specified by simply accessing dynamic properties on the client object itself:
+The **ES6 Rest Client** is a JavaScript library aimed to ease up communication with HTTP-based RESTful APIs via an highly semantic, fluent interface that leverages ECMAScript 6 language features such as [GlobalFetch](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch), [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) and the meta-programming capabilities of the [Proxy](https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/Proxy) object, allowing routes to be specified by simply accessing dynamic properties on the client object itself:
 ```javascript
 import catalogue from './node_modules/es6-rest-client/dist/client.es6.js';
 
