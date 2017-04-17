@@ -122,11 +122,11 @@ catalogue.products.books[POST](JSON.stringify({ title: "Commodore 64 User's Guid
 | `[GET](params?:Object):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP GET`**. Any object passed as argument is serialized into querystring.  |
 | `[HEAD](params?:Object):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP HEAD`**. Any object passed as argument is serialized into querystring. |
 | `[JSONP](params?:Object):Promise<any>` | `no` | Starts the process of fetching a JSON-encoded resource via **`JSONP`** technique. Any object passed as argument is serialized into querystring. |
-| `[POST](payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP POST`**. Any object passed as argument is sent as payload. |
-| `[PUT](payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP PUT`**. Any object passed as argument is sent as payload. |
-| `[DELETE](payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP DELETE`**. Any object passed as argument is sent as payload. |
-| `[PATCH](payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP PATCH`**. Any object passed as argument is sent as payload. |
-| `[OPTIONS](payload?:Blob | BufferSource | FormData | URLSearchParams | USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP OPTIONS`**. Any object passed as argument is sent as payload. |
+| `[POST](payload?:Blob \| BufferSource \| FormData \| URLSearchParams \| USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP POST`**. Any object passed as argument is sent as payload. |
+| `[PUT](payload?:Blob \| BufferSource \| FormData \| URLSearchParams \| USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP PUT`**. Any object passed as argument is sent as payload. |
+| `[DELETE](payload?:Blob \| BufferSource \| FormData \| URLSearchParams \| USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP DELETE`**. Any object passed as argument is sent as payload. |
+| `[PATCH](payload?:Blob \| BufferSource \| FormData \| URLSearchParams \| USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP PATCH`**. Any object passed as argument is sent as payload. |
+| `[OPTIONS](payload?:Blob \| BufferSource \| FormData \| URLSearchParams \| USVString):Promise<Response>` | `no` | Starts the process of fetching a resource via **`HTTP OPTIONS`**. Any object passed as argument is sent as payload. |
 
 **Note:** invoking a non-existent method on the **ES6 Rest Client** causes its name to be parsed as a route fragment and the **`[GET]()`** method to be implicitly called with any arguments given in the former (see the [example](#es6-rest-client-beta) above).
 
@@ -232,7 +232,7 @@ fetchIfExists('catalogue_01062015.json', 2000).then((stream) => {
 import user from '../../node_modules/es6-rest-client/dist/client.es6.js';
 
 /**
- * you may want to declare the 'co' library as an external dependency
+ * You may want to declare the 'co' library as an external dependency
  * in your favourite bundling tool options; rollup reference:
  * https://github.com/rollup/rollup/wiki/JavaScript-API#external
  */
